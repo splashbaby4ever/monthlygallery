@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>happy 15</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Caveat:wght@500;600&family=Karla:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+  /* ============================================================
+     DESIGN TOKENS
+     paper:    warm aged paper, the base of everything
+     ink:      deep coffee brown, used for all text
+     terra:    dusty terracotta, primary accent
+     gold:     faded gold, secondary accent / tape
+     sage, rose, slate, clay: placeholder photo tones — swap freely
+     ============================================================ */
+  :root{
+    --paper: #EFE5D2;
+    --paper-deep: #E4D7BD;
+    --ink: #3B2C20;
+    --ink-soft: #6B5947;
+    --terra: #C2674B;
+    --gold: #C49A53;
+    --sage: #8C9A78;
+    --rose: #C98C82;
+    --slate: #6E7C8C;
+    --clay: #B07A56;
+    --card-shadow: 0 14px 30px -12px rgba(59, 44, 32, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body{
+    margin:0;
+    padding:0;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(255,255,255,0.25), transparent 60%),
+      var(--paper);
+    color: var(--ink);
+    font-family: 'Karla', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* subtle paper grain, purely decorative, doesn't block clicks */
+  body::before{
+    content:"";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    z-index: 1;
+  }
+
+  .page{
+    position: relative;
+    z-index: 2;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 72px 28px 100px;
+  }
+
+  /* ---------- header ---------- */
+  header{
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .eyebrow{
+    font-family: 'Caveat', cursive;
+    font-size: 1.4rem;
+    color: var(--terra);
+    display: block;
+    margin-bottom: 6px;
+    transform: rotate(-2deg);
+  }
+
+  h1{
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    margin: 0 0 14px;
+    letter-spacing: -0.01em;
+  }
+
+  header p{
+    font-size: 1.02rem;
+    color: var(--ink-soft);
+    max-width: 420px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ---------- gallery ---------- */
+  .gallery{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 46px 32px;
+    align-items: start;
+  }
+
+  .card-wrap{
+    perspective: 1400px;
+  }
+
+  .card{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 4;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(.22,.85,.34,1), rotate 0.35s ease;
+    cursor: pointer;
+    rotate: var(--tilt, -3deg);
+  }
+
+  .card-wrap:nth-child(2n) .card{ --tilt: 2.5deg; }
+  .card-wrap:nth-child(3n) .card{ --tilt: -1.5deg; }
+  .card-wrap:nth-child(4n) .card{ --tilt: 3deg; }
+  .card-wrap:nth-child(5n) .card{ --tilt: -1.5deg; }
+  .card-wrap:nth-child(6n) .card{ --tilt: 3deg; }
+  .card-wrap:nth-child(7n) .card{ --tilt: 2.5deg; }
+  .card-wrap:nth-child(8n) .card{ --tilt: -1.5deg; }
+  .card-wrap:nth-child(9n) .card{ --tilt: 3deg; }
+  .card-wrap:nth-child(10n) .card{ --tilt: 2.5deg; }
+  .card-wrap:nth-child(11n) .card{ --tilt: -1.5deg; }
+  .card-wrap:nth-child(12n) .card{ --tilt: 3deg; }
+  .card-wrap:nth-child(13n) .card{ --tilt: -2.5deg; }
+  .card-wrap:nth-child(14n) .card{ --tilt: 2.5deg; }
+  .card-wrap:nth-child(15n) .card{ --tilt: -1.5deg; }
+  .card-wrap:nth-child(16n) .card{ --tilt: 3deg; }
+
+  .card-wrap:hover .card,
+  .card:focus-visible{
+    rotate: 0deg;
+    transform: translateY(-6px);
+  }
+
+  .card.flipped{
+    transform: rotateY(180deg);
+  }
+  .card-wrap:hover .card.flipped,
+  .card.flipped:focus-visible{
+    rotate: 0deg;
+    transform: rotateY(180deg) translateY(-6px);
+  }
+
+  .face{
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 3px;
+    box-shadow: var(--card-shadow);
+  }
+
+  /* ---------- front: the polaroid ---------- */
+  .front{
+    background: #FAF6EC;
+    padding: 10px 10px 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .photo{
+    flex: 1;
+    border-radius: 1px;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-image: var(--photo-tone);
+  }
+
+  .photo::after{
+    /* faint vignette + grain so the placeholder reads as a photo, not a swatch */
+    content:"";
+    position:absolute; inset:0;
+    background: radial-gradient(ellipse at 50% 40%, transparent 40%, rgba(0,0,0,0.18) 100%);
+    mix-blend-mode: multiply;
+  }
+
+  .caption{
+    font-family: 'Times Roman', serif;
+    font-size: 1.25rem;
+    color: var(--ink-soft);
+    text-align: center;
+    padding: 10px 6px 16px;
+  }
+
+  /* ---------- back: the note ---------- */
+  .back{
+    background: var(--paper-deep);
+    transform: rotateY(180deg);
+    padding: 30px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid rgba(59,44,32,0.08);
+  }
+
+  .tape{
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-3deg);
+    width: 64px;
+    height: 22px;
+    background: rgba(196, 154, 83, 0.45);
+    border: 1px solid rgba(196, 154, 83, 0.6);
+  }
+
+  .thought{
+    font-family: 'Caveat', cursive;
+    font-size: 1.5rem;
+    line-height: 1.45;
+    color: var(--ink);
+    text-align: center;
+  }
+
+  .stamp{
+    font-family: 'Karla', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: center;
+    margin-top: 16px;
+    opacity: 0.75;
+  }
+
+  /* ---------- footer ---------- */
+  footer{
+    text-align: center;
+    margin-top: 90px;
+    font-family: 'Times Roman', serif;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 1rem;
+    opacity: 0.85;
+  }
+
+  /* ---------- accessibility ---------- */
+  .card:focus-visible{
+    outline: 2px solid var(--terra);
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .card, .card-wrap:hover .card{
+      transition: none;
+    }
+  }
+
+  @media (max-width: 540px){
+    .gallery{ gap: 36px 20px; }
+    .card-wrap .card{ rotate: 0deg !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header>
+    <h1>Happy 15 months :)</h1>
+    <p style="font-family:Times Roman">Can't wait to make more memories with you. <br>Click one to find out more.</p>
+  </header>
+
+  <main class="gallery" id="gallery"></main>
+
+  <footer>— love, aniya —</footer>
+
+</div>
+
+<script>
+  const photos = [
+    {
+      tone: "url('m0.jpg')",
+      caption: 'Month 0',
+      thought: '📍NFG Ledge <br> "Sooo what are we?"',
+      date: "march 2025"
+    },
+    {
+      tone: "url('m1.jpg')",
+      caption: 'Month 1',
+      thought: '📍NFG Stairs <br> bad photo, i think we had exams',
+      date: 'april 2025'
+    },
+    {
+      tone: "url('m2.jpg')",
+      caption: 'Month 2',
+      thought: '📍near Kanteerva Stadium, BLR <br> "Wait, I see you from my car"',
+      date: 'may 2025'
+    },
+    {
+      tone: "url('m3.jpg')",
+      caption: 'Month 3',
+      thought: '📍Home <br> lowkey cute texts',
+      date: 'june 2025'
+    },
+    {
+      tone: "url('m4.jpg')",
+      caption: 'Month 4',
+      thought: '📍NFG Ledge <br> Krispy Kreme!!!',
+      date: 'july 2025'
+    },
+    {
+      tone: "url('m5.jpg')",
+      caption: 'Month 5',
+      thought: '📍Bleachers <br> "Do you wanna go to prom?"',
+      date: 'august 2025'
+    },
+    {
+      tone: "url('m6.jpg')",
+      caption: 'Month 6',
+      thought: '📍NFG Ledge <br> Dominoes Date',
+      date: 'spetember 2025'
+    },
+    {
+      tone: "url('m7.jpg')",
+      caption: 'Month 7',
+      thought: '📍Pleasant <br> Love big-backing',
+      date: 'october 2025'
+    },
+    {
+      tone: "url('m8.jpg')",
+      caption: 'Month 8',
+      thought: '📍Bleacher <br> Mid-ass waffles',
+      date: 'november 2025'
+    },
+    {
+      tone: "url('m9.jpg')",
+      caption: 'Month 9',
+      thought: '📍McDonalds, Sainikpuri <br> Auto ride was crazy',
+      date: 'december 2025'
+    },
+    {
+      tone: "url('m10.jpg')",
+      caption: 'Month 10',
+      thought: '📍IKEA, HITEC city <br> Unlimited Coffee',
+      date: 'january 2026'
+    },
+    {
+      tone: "url('m11.jpg')",
+      caption: 'Month 11',
+      thought: '📍Katha, Shamirpet <br> Banger Dosa + Lime Soda',
+      date: 'february 2026'
+    },
+    {
+      tone: "url('m12.jpg')",
+      caption: 'Month 12 (!!)',
+      thought: '📍Cali B, Inorbit, Madhapur <br> 1 year with you is crazy',
+      date: 'march 2026'
+    },
+    {
+      tone: "url('m13.jpg')",
+      caption: 'Month 13',
+      thought: '📍SFC <br> Post Library Grind Session',
+      date: 'april 2026'
+    },
+    {
+      tone: "url('m14.jpg')",
+      caption: 'Month 14',
+      thought: '📍Home <br> We lowkey cute for the oreos',
+      date: 'may 2026'
+    }
+  ];
+
+  const gallery = document.getElementById('gallery');
+
+  photos.forEach((p, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'card-wrap';
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.tabIndex = 0;
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-pressed', 'false');
+    card.setAttribute('aria-label', `Photo: ${p.caption}. Click to reveal the thought behind it.`);
+
+    card.innerHTML = `
+      <div class="face front">
+        <div class="photo" style="--photo-tone: ${p.tone}"></div>
+        <div class="caption">${p.caption}</div>
+      </div>
+      <div class="face back">
+        <div class="tape"></div>
+        <div class="thought">${p.thought}</div>
+        <div class="stamp">${p.date}</div>
+      </div>
+    `;
+
+    function toggle(){
+      const isFlipped = card.classList.toggle('flipped');
+      card.setAttribute('aria-pressed', String(isFlipped));
+    }
+
+    card.addEventListener('click', toggle);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle();
+      }
+    });
+
+    wrap.appendChild(card);
+    gallery.appendChild(wrap);
+  });
+</script>
+
+</body>
+</html>
